@@ -41,6 +41,14 @@ ModelInstanceIndex AddModelFromSdfFile(
     multibody_plant::MultibodyPlant<double>* plant,
     geometry::SceneGraph<double>* scene_graph = nullptr);
 
+// my hacky version of having specific body names
+ModelInstanceIndex AddModelFromSdfFile(
+    const std::string& file_name,
+    const std::string& model_name,
+    const std::string& body_name_prefix,
+    multibody_plant::MultibodyPlant<double>* plant,
+    geometry::SceneGraph<double>* scene_graph = nullptr);
+
 /// Alternate version of AddModelFromSdfFile which always uses the "name"
 /// element from the model tag for the name of the newly created model instance.
 ModelInstanceIndex AddModelFromSdfFile(

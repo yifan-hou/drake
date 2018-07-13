@@ -314,6 +314,15 @@ ModelInstanceIndex AddModelFromSdfFile(
     const std::string& file_name,
     const std::string& model_name_in,
     multibody_plant::MultibodyPlant<double>* plant,
+    geometry::SceneGraph<double>* scene_graph){
+  return AddModelFromSdfFile(file_name, model_name_in, "", plant, scene_graph);
+} 
+
+ModelInstanceIndex AddModelFromSdfFile(
+    const std::string& file_name,
+    const std::string& model_name_in,
+    const std::string& body_name_prefix,
+    multibody_plant::MultibodyPlant<double>* plant,
     geometry::SceneGraph<double>* scene_graph) {
   DRAKE_THROW_UNLESS(plant != nullptr);
   DRAKE_THROW_UNLESS(!plant->is_finalized());
@@ -377,7 +386,7 @@ ModelInstanceIndex AddModelFromSdfFile(
 
     // Add a rigid body to model each link.
     const RigidBody<double>& body =
-        plant->AddRigidBody(link.Name(), model_instance, M_BBo_B);
+        plant->AddRigidBody(body_name_prefix + link.Name(), model_instance, M_BBo_B);
 
     if (scene_graph != nullptr) {
       for (uint64_t visual_index = 0; visual_index < link.VisualCount();
@@ -431,6 +440,7 @@ ModelInstanceIndex AddModelFromSdfFile(
     geometry::SceneGraph<double>* scene_graph) {
   return AddModelFromSdfFile(file_name, "", plant, scene_graph);
 }
+
 
 }  // namespace parsing
 }  // namespace multibody
